@@ -57,7 +57,7 @@ export default function OrgTree({ data, onEdit, onDelete, onAddChild, onDetail }
         nodeSize={{ x: 310, y: 150 }}
         translate={translate}
         zoom={0.75}
-        initialDepth={2}
+        initialDepth={6}
         enableLegacyTransitions
         transitionDuration={300}
         pathClassFunc={() => 'tree-link'}
