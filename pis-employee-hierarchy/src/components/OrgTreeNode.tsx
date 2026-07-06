@@ -21,17 +21,17 @@ export default function OrgTreeNode({
   const isVirtual   = id === '__virtual_root__';
 
   // Card dimensions
-  const nodeWidth  = 280;
+  const nodeWidth  = 300;
   const nodeHeight = 80;
   const cardLeft   = -nodeWidth / 2;
-  const pad        = 14;
+  const pad        = 10;
 
   // Flex-like layout: chevron (if any) → avatar → text
   const chevronW  = hasChildren ? 22 : 0;
-  const gap       = 10;
-  const chevronCx = cardLeft + pad + chevronW / 2;
+  const gap       = 40;
+  const chevronCx = cardLeft + pad + chevronW/2;
   const avatarCx  = cardLeft + pad + chevronW + (hasChildren ? gap : 0) + 22;
-  const textX     = avatarCx + 22 + gap;
+  const textX     = avatarCx + 22 + gap ;
 
   // Colors
   const cardFill   = isVirtual ? '#1e40af' : hovered ? '#f0f9ff' : '#ffffff';
@@ -71,17 +71,17 @@ export default function OrgTreeNode({
       {hasChildren && (
         <g
           transform={`translate(${chevronCx}, 0)`}
-          style={{ cursor: 'pointer' }}
+          style={{ cursor: 'pointer',width:"100px" }}
           onClick={(e) => { e.stopPropagation(); toggleNode(); }}
         >
-          <rect x={-11} y={-16} width={22} height={32} fill="transparent" />
+          <rect x={-22} y={-40} color='red' fill="white" radius={20} width={42} height={80}  />
           {isCollapsed ? (
-            <path d="M-7,-11 L7,0 L-7,11"
-              fill="none" stroke={chevronClr} strokeWidth={3}
+            <path d="M-7,-11 L10,0 L-7,11"
+              fill="none" stroke={chevronClr} strokeWidth={5}
               strokeLinecap="round" strokeLinejoin="round" />
           ) : (
-            <path d="M-11,-5 L0,8 L11,-5"
-              fill="none" stroke={chevronClr} strokeWidth={3}
+            <path d="M-11,-5 L0,10 L11,-5"
+              fill="none" stroke={chevronClr} strokeWidth={5}
               strokeLinecap="round" strokeLinejoin="round" />
           )}
         </g>
@@ -103,12 +103,12 @@ export default function OrgTreeNode({
         fontSize={16} fontWeight="500" fill={nameFill}
         style={{ pointerEvents: 'none', userSelect: 'none' }}
       >
-        {nodeDatum.name.length > 13 ? nodeDatum.name.slice(0, 13) + '…' : nodeDatum.name}
+        {nodeDatum.name.length > 13 ? nodeDatum.name.slice(0, 13) + '… ' : nodeDatum.name}
       </text>
 
       {/* Description */}
       <text
-        x={textX} y={13}
+        x={textX} y={20}
         fontSize={12} fontWeight="300" fill={descFill}
         style={{ pointerEvents: 'none', userSelect: 'none' }}
       >

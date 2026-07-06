@@ -254,7 +254,7 @@ export default function HomePage() {
         size="sm"
       >
         {detailTarget && (
-          <div className="space-y-3 py-1">
+          <div className="space-y-3 py-10 px-10">
             <div>
               <Text size="xs" c="dimmed" tt="uppercase" fw={600}>Name</Text>
               <Text size="sm" fw={500}>{detailTarget.name}</Text>

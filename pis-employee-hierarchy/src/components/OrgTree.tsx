@@ -54,7 +54,7 @@ export default function OrgTree({ data, onEdit, onDelete, onAddChild, onDetail }
         pathFunc="step"
         renderCustomNodeElement={renderNode}
         separation={{ siblings: 1.4, nonSiblings: 1.8 }}
-        nodeSize={{ x: 310, y: 150 }}
+        nodeSize={{ x: 250, y: 150 }}
         translate={translate}
         zoom={0.75}
         initialDepth={6}
@@ -63,7 +63,7 @@ export default function OrgTree({ data, onEdit, onDelete, onAddChild, onDetail }
         pathClassFunc={() => 'tree-link'}
       />
       <style>{`
-        .tree-link { stroke: #cbd5e1; stroke-width: 1.5px; fill: none; }
+        .tree-link { stroke: #000000; stroke-width: 1.5px; fill: none; }
       `}</style>
     </div>
   );
