@@ -12,15 +12,13 @@ import {
   Center,
   Badge,
   Divider,
-  ActionIcon,
-  Tooltip,
+  
 } from '@mantine/core';
 import {
   IconPlus,
-  IconRefresh,
-  IconAlertCircle,
+  
   IconBuilding,
-  IconX,
+ 
 } from '@tabler/icons-react';
 import { notifications } from '@mantine/notifications';
 
@@ -118,6 +116,19 @@ export default function HomePage() {
       setDeleteLoading(false);
     }
   };
+// TODO: FIX IT TMRW
+  const handleDeleteRequest = (position: Position) => {
+    if ((position.children?.length ?? 0) > 0) {
+      notifications.show({
+        title: 'Cannot Delete',
+        message: `"${position.name}" has child positions. Remove all children before deleting.`,
+        color: 'red',
+        autoClose: 4000,
+      });
+      return;
+    }
+    setDeleteTarget(position);
+  };
 
   const formPositions = editTarget
     ? flat.filter((p) => p.id !== editTarget.id)
@@ -126,9 +137,9 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
       {/* Header */}
-      <header className="bg-white border-b border-gray-200 shadow-sm">
-        <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
-          <Group gap="sm">
+      <header  className="mx-auto  px-4 py-6 max-w-7xl">
+        <div className="flex bg-white  max-w-7xl border-b  border-gray-200 mx-auto border-r-amber-400 px-4 py-6 shadow-sm rounded-md items-center justify-between">
+          <Group  gap="sm">
             <div className="w-9 h-9 bg-blue-600 rounded-lg flex items-center justify-center">
               <IconBuilding size={20} color="white" />
             </div>
@@ -140,11 +151,7 @@ export default function HomePage() {
             </div>
           </Group>
           <Group gap="sm">
-            <Tooltip label="Refresh" withArrow>
-              <ActionIcon variant="light" onClick={loadData} loading={loading} size="lg">
-                <IconRefresh size={16} />
-              </ActionIcon>
-            </Tooltip>
+           
             <Button leftSection={<IconPlus size={16} />} onClick={handleOpenCreate}>
               Add Position
             </Button>
@@ -173,7 +180,7 @@ export default function HomePage() {
         <Paper p="lg" radius="md" withBorder className="bg-white">
           <Group justify="space-between" mb="md">
             <Title order={5} className="text-gray-700">Position Hierarchy</Title>
-            {loading && <Loader size="xs" />}
+           
           </Group>
           <Divider mb="md" />
 
@@ -193,7 +200,7 @@ export default function HomePage() {
             <OrgTree
               data={tree}
               onEdit={handleEdit}
-              onDelete={setDeleteTarget}
+              onDelete={handleDeleteRequest}
               onAddChild={handleAddChild}
               onDetail={setDetailTarget}
             />
@@ -240,47 +247,86 @@ export default function HomePage() {
       <Modal
         opened={!!detailTarget}
         onClose={() => setDetailTarget(null)}
-        title={
-          <Group gap="xs">
-            <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-              <span className="text-blue-700 font-bold text-sm">
-                {detailTarget?.name.slice(0, 2).toUpperCase()}
-              </span>
-            </div>
-            <span className="font-semibold text-gray-800">{detailTarget?.name}</span>
-          </Group>
-        }
+        withCloseButton={false}
         centered
         size="sm"
+        padding={0}
+        radius="md"
       >
         {detailTarget && (
-          <div className="space-y-3 py-10 px-10">
-            <div>
-              <Text size="xs" c="dimmed" tt="uppercase" fw={600}>Name</Text>
-              <Text size="sm" fw={500}>{detailTarget.name}</Text>
+          <div>
+            {/* Banner header */}
+            <div className="bg-gradient-to-r h-20 mx-auto flex items-center mb-10 from-blue-600 to-blue-500 rounded-t-md px-6 pt-6 pb-10 relative">
+              <button
+                onClick={() => setDetailTarget(null)}
+                className="absolute top-3 right-3 text-blue-200 hover:text-white transition-colors"
+              >
+                ✕
+              </button>
+              <div className="flex items-center gap-4">
+                <div className="w-14 h-14 rounded-full bg-white/20 flex items-center justify-center text-white text-xl font-semibold">
+                  {detailTarget.name.slice(0, 2).toUpperCase()}
+                </div>
+                <div>
+                  <p className="text-white text-lg font-semibold leading-tight">{detailTarget.name}</p>
+                  <p className="text-blue-100 text-xs mt-0.5">Position Details</p>
+                </div>
+              </div>
             </div>
-            <Divider />
-            <div>
-              <Text size="xs" c="dimmed" tt="uppercase" fw={600}>Description</Text>
-              <Text size="sm">{detailTarget.description || '—'}</Text>
+
+            {/* Info cards */}
+            <div className="px-6 -mt-5 space-y-3 pb-5">
+              <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-4 space-y-3">
+                <div >
+                  <p className="text-xs text-gray-400 uppercase font-medium tracking-wide">Description</p>
+                  <p className="text-sm text-gray-700 mt-0.5">{detailTarget.description || '—'}</p>
+                </div>
+                <Divider />
+                <div className="flex gap-6">
+                  <div>
+                    <p className="text-xs text-gray-400 uppercase font-medium tracking-wide">Direct Reports</p>
+                    <p className="text-sm text-gray-700 mt-0.5 font-semibold">{detailTarget.children?.length ?? 0}</p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-400 uppercase font-medium tracking-wide">Reports To</p>
+                    <p className="text-sm text-gray-700 mt-0.5">
+                      {detailTarget.parentId
+                        ? flat.find(p => p.id === detailTarget.parentId)?.name ?? '—'
+                        : <Badge color="blue" variant="light" size="sm">Root</Badge>
+                      }
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Actions */}
+              <Group grow gap="xs">
+                <Button
+                  variant="light"
+                  color="blue"
+                  size="sm"
+                  onClick={() => { setDetailTarget(null); handleEdit(detailTarget); }}
+                >
+                  Edit
+                </Button>
+                <Button
+                  variant="light"
+                  color="green"
+                  size="sm"
+                  onClick={() => { setDetailTarget(null); handleAddChild(detailTarget); }}
+                >
+                  Add Child
+                </Button>
+                <Button
+                  variant="light"
+                  color="red"
+                  size="sm"
+                  onClick={() => { setDetailTarget(null); handleDeleteRequest(detailTarget); }}
+                >
+                  Delete
+                </Button>
+              </Group>
             </div>
-            <Divider />
-          
-            <div>
-              <Text size="xs" c="dimmed" tt="uppercase" fw={600}>Children</Text>
-              <Text size="sm">{detailTarget.children?.length ?? 0} direct report(s)</Text>
-            </div>
-            <Group mt="sm" gap="xs">
-              <Button size="xs" variant="light" onClick={() => { setDetailTarget(null); handleEdit(detailTarget); }}>
-                Edit
-              </Button>
-              <Button size="xs" variant="light" color="green" onClick={() => { setDetailTarget(null); handleAddChild(detailTarget); }}>
-                Add Child
-              </Button>
-              <Button size="xs" variant="light" color="red" onClick={() => { setDetailTarget(null); setDeleteTarget(detailTarget); }}>
-                Delete
-              </Button>
-            </Group>
           </div>
         )}
       </Modal>

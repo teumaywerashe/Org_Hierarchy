@@ -6,9 +6,7 @@ export default function OrgTreeNode({
   nodeDatum,
   toggleNode,
   flatMap,
-  onEdit,
-  onDelete,
-  onAddChild,
+ 
   onDetail,
 }: OrgTreeNodeProps) {
   const [hovered, setHovered] = useState(false);
@@ -65,7 +63,7 @@ export default function OrgTreeNode({
         rx={10} ry={10} fill="transparent"
         style={{ cursor: 'pointer' }}
         onClick={(e) => { e.stopPropagation(); if (position) onDetail(position); }}
-      />
+       />
 
       {/* Chevron — only rendered when node has children */}
       {hasChildren && (
@@ -91,8 +89,8 @@ export default function OrgTreeNode({
       <circle cx={avatarCx} cy={0} r={22} fill={avatarFill} style={{ pointerEvents: 'none' }} />
       <text
         x={avatarCx} y={6}
-        textAnchor="middle" fontSize={14} fontWeight="600" fill={avatarText}
-        style={{ pointerEvents: 'none', userSelect: 'none' }}
+        textAnchor="middle" fill={avatarText}
+        style={{ pointerEvents: 'none', userSelect: 'none', fontSize: '14px', fontWeight: 400, fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif" }}
       >
         {nodeDatum.name.slice(0, 2).toUpperCase()}
       </text>
@@ -100,8 +98,8 @@ export default function OrgTreeNode({
       {/* Name */}
       <text
         x={textX} y={-9}
-        fontSize={16} fontWeight="500" fill={nameFill}
-        style={{ pointerEvents: 'none', userSelect: 'none' }}
+        fill="#111827"
+        style={{ pointerEvents: 'none', userSelect: 'none', fontSize: '14px', fontWeight: 600, fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif", stroke: 'none' }}
       >
         {nodeDatum.name.length > 13 ? nodeDatum.name.slice(0, 13) + '… ' : nodeDatum.name}
       </text>
@@ -109,34 +107,15 @@ export default function OrgTreeNode({
       {/* Description */}
       <text
         x={textX} y={20}
-        fontSize={12} fontWeight="300" fill={descFill}
-        style={{ pointerEvents: 'none', userSelect: 'none' }}
+        fill="#374151"
+        style={{ pointerEvents: 'none', userSelect: 'none', fontSize: '12px', fontWeight: 400, fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif", stroke: 'none' }}
       >
         {description
           ? description.length > 17 ? description.slice(0, 17) + '…' : description
           : 'No description'}
       </text>
 
-      {/* Hover action buttons */}
-      {hovered && position && (
-        <>
-          <g transform={`translate(${nodeWidth / 2 + 16}, -24)`} style={{ cursor: 'pointer' }}
-            onClick={(e) => { e.stopPropagation(); onAddChild(position); }}>
-            <circle r={12} fill="#22c55e" />
-            <text textAnchor="middle" y={5} fontSize={15} fill="white" style={{ userSelect: 'none' }}>+</text>
-          </g>
-          <g transform={`translate(${nodeWidth / 2 + 16}, 0)`} style={{ cursor: 'pointer' }}
-            onClick={(e) => { e.stopPropagation(); onEdit(position); }}>
-            <circle r={12} fill="#3b82f6" />
-            <text textAnchor="middle" y={4} fontSize={12} fill="white" style={{ userSelect: 'none' }}>✎</text>
-          </g>
-          <g transform={`translate(${nodeWidth / 2 + 16}, 24)`} style={{ cursor: 'pointer' }}
-            onClick={(e) => { e.stopPropagation(); onDelete(position); }}>
-            <circle r={12} fill="#ef4444" />
-            <text textAnchor="middle" y={5} fontSize={14} fill="white" style={{ userSelect: 'none' }}>✕</text>
-          </g>
-        </>
-      )}
+     
     </g>
   );
 }

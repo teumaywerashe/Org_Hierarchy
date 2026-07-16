@@ -88,7 +88,7 @@ export default function PositionForm({ positions, editTarget, onSubmit, onCancel
           {...register('description')}
         />
 
-        <Select
+        {/* <Select
           label="Reports To (Parent Position)"
           placeholder="Select parent position (leave empty for root)"
           data={parentOptions}
@@ -97,7 +97,7 @@ export default function PositionForm({ positions, editTarget, onSubmit, onCancel
           clearable
           searchable
           error={errors.parentId?.message}
-        />
+        /> */}
 
         <div className="flex gap-3 pt-2">
           <Button type="submit" loading={loading} className="flex-1">

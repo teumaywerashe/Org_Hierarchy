@@ -64,6 +64,11 @@ export default function OrgTree({ data, onEdit, onDelete, onAddChild, onDetail }
       />
       <style>{`
         .tree-link { stroke: #000000; stroke-width: 1.5px; fill: none; }
+        .rd3t-tree-container text,
+        .rd3t-tree-container svg text {
+          font-weight: 400 !important;
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif !important;
+        }
       `}</style>
     </div>
   );
