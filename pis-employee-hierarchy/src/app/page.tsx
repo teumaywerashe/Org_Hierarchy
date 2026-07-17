@@ -116,7 +116,7 @@ export default function HomePage() {
       setDeleteLoading(false);
     }
   };
-// TODO: FIX IT TMRW
+// TODO : TO BE IMPLIMENTED LATTER
   const handleDeleteRequest = (position: Position) => {
     if ((position.children?.length ?? 0) > 0) {
       notifications.show({
