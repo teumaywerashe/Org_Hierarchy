@@ -37,10 +37,6 @@ export class Employee {
   @Column({ type: 'decimal', precision: 10, scale: 2, nullable: true })
   salary: number | null;
 
-
-
-
-
   @ApiProperty()
   @Column({ type: 'uuid', nullable: true })
   positionId: string | null;
