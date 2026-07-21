@@ -640,7 +640,7 @@ export default function HomePage() {
               onChange={(event) =>
                 setEmployeeForm((current) => ({
                   ...current,
-                  firstName: event.currentTarget.value,
+                  firstName: event?.currentTarget?.value ?? "",
                 }))
               }
             />
@@ -650,7 +650,7 @@ export default function HomePage() {
               onChange={(event) =>
                 setEmployeeForm((current) => ({
                   ...current,
-                  lastName: event.currentTarget.value,
+                  lastName: event?.currentTarget?.value ?? "",
                 }))
               }
             />
@@ -661,7 +661,7 @@ export default function HomePage() {
             onChange={(event) =>
               setEmployeeForm((current) => ({
                 ...current,
-                email: event.currentTarget.value,
+                email: event?.currentTarget?.value ?? "",
               }))
             }
           />
@@ -672,7 +672,7 @@ export default function HomePage() {
               onChange={(event) =>
                 setEmployeeForm((current) => ({
                   ...current,
-                  phoneNumber: event.currentTarget.value,
+                  phoneNumber: event?.currentTarget?.value ?? "",
                 }))
               }
             />
@@ -683,7 +683,7 @@ export default function HomePage() {
               onChange={(event) =>
                 setEmployeeForm((current) => ({
                   ...current,
-                  hireDate: event.currentTarget.value,
+                  hireDate: event?.currentTarget?.value ?? "",
                 }))
               }
             />
@@ -695,7 +695,12 @@ export default function HomePage() {
               onChange={(value) =>
                 setEmployeeForm((current) => ({
                   ...current,
-                  salary: typeof value === "number" ? value : null,
+                  salary:
+                    typeof value === "number"
+                      ? value
+                      : value === "" || value == null
+                        ? null
+                        : Number(value),
                 }))
               }
               min={0}
@@ -711,7 +716,7 @@ export default function HomePage() {
               onChange={(value) =>
                 setEmployeeForm((current) => ({
                   ...current,
-                  positionId: value,
+                  positionId: value ?? null,
                 }))
               }
               searchable
